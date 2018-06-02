@@ -1,0 +1,67 @@
+CREATE DATABASE meetingManager;
+
+DROP TABLE IF EXISTS Person;
+CREATE TABLE Person (
+  person_id INT UNSIGNED NOT NULL AUTO_INCREMENT,
+  first_name VARCHAR(30) NOT NULL,
+  last_name VARCHAR(30) NOT NULL,
+  roll VARCHAR(30) DEFAULT "employee",
+  position VARCHAR(30) NOT NULL,
+  team VARCHAR(30),
+  CONSTRAINT Person_pk PRIMARY KEY (person_id)
+);
+
+DROP TABLE IF EXISTS Meeting_room;
+CREATE TABLE Meeting_room (
+  room_id INT UNSIGNED NOT NULL AUTO_INCREMENT,
+  am_price FLOAT NOT NULL,
+  pm_price FLOAT NOT NULL,
+  CONSTRAINT Meeting_room_pk PRIMARY KEY (room_id)
+);
+
+DROP TABLE IF EXISTS Meeting;
+CREATE TABLE Meeting (
+  meeting_id INT UNSIGNED NOT NULL AUTO_INCREMENT,
+  room_id INT UNSIGNED NOT NULL,
+  cost FLOAT NOT NULL,
+  date DATE NOT NULL,
+  start_time TIME NOT NULL,
+  end_time TIME NOT NULL,
+  team VARCHAR(30) NOT NULL,
+  person_id INT UNSIGNED NOT NULL,
+  CONSTRAINT Meeting_pk PRIMARY KEY (meeting_id),
+  CONSTRAINT Meeting_fk FOREIGN KEY (room_id) REFERENCES Meeting_room(room_id));
+
+
+DROP TABLE IF EXISTS Participant;
+CREATE TABLE Participant (
+  participant_id INT UNSIGNED NOT NULL AUTO_INCREMENT,
+  person_id INT UNSIGNED,
+  meeting_id INT UNSIGNED,
+  CONSTRAINT Participant_pk PRIMARY KEY (participant_id),
+  CONSTRAINT Participant_person_fk FOREIGN KEY (person_id) REFERENCES Person(person_id),
+  CONSTRAINT Participant_meeting_fk FOREIGN KEY (meeting_id) REFERENCES Meeting(meeting_id)
+);
+
+DROP TABLE IF EXISTS Facility;
+CREATE TABLE Facility (
+  facility_id INT UNSIGNED NOT NULL AUTO_INCREMENT,
+  item VARCHAR(30) NOT NULL,
+  price INT NOT NULL,
+  CONSTRAINT Facility_pk PRIMARY KEY (facility_id)
+);
+
+
+DROP TABLE IF EXISTS Facility_In_Room;
+CREATE TABLE Facility_In_Room (
+  room_id INT UNSIGNED,
+  facility_id INT UNSIGNED,
+  CONSTRAINT Facility_fk FOREIGN KEY (facility_id) REFERENCES Facility(facility_id),
+  CONSTRAINT Room_fk FOREIGN KEY (room_id) REFERENCES Meeting_room(room_id)
+);
+
+DROP TABLE IF EXISTS Team;
+CREATE TABLE Team (
+  name VARCHAR(30) NOT NULL,
+  CONSTRAINT Name_fk PRIMARY KEY (name)
+);
