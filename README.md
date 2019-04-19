@@ -1,2 +1,2 @@
 # meetingManager
-This is a continuation of a first year college project. It's a website managing bookings and cancels of meetings.
+This website was created for a databas project together with a classmate (Ida Lundin) in my first year of studying computer science. The website manages bookings of meetings. 
